@@ -5,7 +5,10 @@ import 'package:stockpredict/firstpage.dart';
 import 'package:stockpredict/secondpage.dart';
 
 void main() {
-  runApp(Entrance());
+  runApp(MaterialApp(
+    home: Entrance()
+  )
+  );
 }
 
 class Home extends StatefulWidget {
@@ -31,14 +34,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          textTheme: GoogleFonts.poppinsTextTheme(
-            Theme.of(context).textTheme,
-          ),
-        ),
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+    return  Scaffold(
           backgroundColor: Color.fromARGB(255, 9, 23, 50),
           body: pages[_curidx],
           bottomNavigationBar: ClipRRect(
@@ -84,7 +80,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-        ));
+        );
   }
 }
 

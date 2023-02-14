@@ -12,9 +12,7 @@ class Entrance extends StatefulWidget {
 class _EntranceState extends State<Entrance> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
+    return Scaffold(
             body: SafeArea(
                 child: Container(
                     decoration: const BoxDecoration(
@@ -52,7 +50,7 @@ class _EntranceState extends State<Entrance> {
                                 ),
                               ),
                             )))) /* add child content here */
-                )));
+                ));
   }
 }
 

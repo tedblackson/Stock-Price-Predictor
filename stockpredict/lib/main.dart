@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stockpredict/Start.dart';
 import 'package:stockpredict/firstpage.dart';
 import 'package:stockpredict/secondpage.dart';
+import 'package:stockpredict/news.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,6 +25,7 @@ class _HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     StockInsightsPage(),
     secondpage(),
+    NewsScreen(),
     Container(color: Colors.amber)
   ];
   int _curidx = 0;

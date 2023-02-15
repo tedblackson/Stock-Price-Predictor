@@ -58,7 +58,7 @@ class _NewsListState extends State<NewsScreen> {
     String path = "/v2/latest_headlines";
     Map<String, String> parameters = {'countries': 'US', 'topic': 'finance'};
     final response = await http.get(Uri.https(host, path, parameters),
-        headers: {'x-api-key': "vl4V-EERAgCRf7kyo_MwXp1QL9QeUk7PAXAhFQgHlIM"});
+        headers: {'x-api-key': "q4CGaI2zBCk-Mx4OkMrBsZl-4S7rXq8gXPXBbSCbzyg"});
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       setState(() {

@@ -7,6 +7,7 @@ import 'package:stockpredict/news.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Entrance()
   )
   );

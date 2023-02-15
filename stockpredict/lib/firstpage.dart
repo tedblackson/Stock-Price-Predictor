@@ -24,7 +24,11 @@ class _StockInsightsPageState extends State<StockInsightsPage> {
     'GOOGL': 'assets/images/AA.jpg',
     'AAPL' : 'assets/images/apple.png',
     'AMZN' : 'assets/images/amazon.png',
-    'TSLA' : 'assets/images/tesla.jpg'
+    'TSLA' : 'assets/images/tesla.jpg',
+    'MSFT' : 'assets/images/microsoft.jpg',
+    'UBER' : 'assets/images/uber.jpg', 
+    'PLTR' : 'assets/images/palantir.jpg', 
+    'NTDOY': 'assets/images/nintendo.jpg' 
   };
   final String _baseUrl =
       'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes';
@@ -34,7 +38,7 @@ class _StockInsightsPageState extends State<StockInsightsPage> {
   Future<void> _fetchStockData() async {
     try {
       final response = await http.get(
-        Uri.parse('$_baseUrl?region=US&symbols=GOOGL,AAPL,AMZN,TSLA'),
+        Uri.parse('$_baseUrl?region=US&symbols=GOOGL,AAPL,AMZN,TSLA,MSFT,UBER,PLTR,NTDOY'),
         headers: {
           "X-RapidAPI-Key":
               "dc1757ec8cmsh586c7464a85bf17p1b88adjsn724a94afb79c",
@@ -59,7 +63,7 @@ class _StockInsightsPageState extends State<StockInsightsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return _stocks.isEmpty ? Center(child: CircularProgressIndicator()) : SafeArea(
       child: Container(
           color: Color.fromARGB(255, 9, 23, 50),
           child: ListView(

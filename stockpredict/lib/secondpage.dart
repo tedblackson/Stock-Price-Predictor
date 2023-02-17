@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spline_chart/spline_chart.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 final sketch = ValueNotifier<String>('n');
@@ -12,9 +17,25 @@ class secondpage extends StatefulWidget {
 }
 
 class _secondpageState extends State<secondpage> {
+  DateTime endDate = DateTime.now();
+  late final duration;
   Map plot = {
-    'TSLA': {10.0: 100.0, 105.0: 30.0, 50.0: 30.0, 13.0: 87.0, 80.0: 50.0, 100.0: 90.0},
-    'APPL': {0.0: 10.0, 15.0: 30.0, 60.0: 40.0, 44.0: 50.0, 80.0: 50.0, 100.0: 90.0},
+    'TSLA': {
+      10.0: 100.0,
+      105.0: 30.0,
+      50.0: 30.0,
+      13.0: 87.0,
+      80.0: 50.0,
+      100.0: 90.0
+    },
+    'APPL': {
+      0.0: 10.0,
+      15.0: 30.0,
+      60.0: 40.0,
+      44.0: 50.0,
+      80.0: 50.0,
+      100.0: 90.0
+    },
     'AMZN': {0.0: 583.0, 50.0: 972.0, 100.0: 910.0},
     'MSFT': {0.0: 583.0, 35.0: 700.0, 70.0: 550.0, 90.0: 540.0, 100.0: 640.0}
   };
@@ -72,9 +93,9 @@ class _secondpageState extends State<secondpage> {
                   child: ValueListenableBuilder(
                       valueListenable: sketch,
                       builder: ((context, value, widget) => SplineChart(
-
-                            values: value !='n'? plot[value]: {0.0: 583.0, 50.0: 972.0, 100.0: 910.0},
-                            
+                            values: value != 'n'
+                                ? plot[value]
+                                : {0.0: 583.0, 50.0: 972.0, 100.0: 910.0},
                             verticalLineEnabled: false,
                             verticalLinePosition: 90.0,
                             verticalLineStrokeWidth: 2.0,
@@ -110,8 +131,8 @@ class _secondpageState extends State<secondpage> {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(
-                                    2000), //DateTime.now() - not to allow to choose before today.
+                                firstDate: DateTime
+                                    .now(), //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
@@ -151,11 +172,12 @@ class _secondpageState extends State<secondpage> {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(
-                                    2000), //DateTime.now() - not to allow to choose before today.
+                                firstDate: DateTime
+                                    .now(), //DateTime.now() - not to allow to choose before today.
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
+                              endDate = pickedDate;
                               print(
                                   pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                               String formattedDate =
@@ -214,6 +236,10 @@ class _secondpageState extends State<secondpage> {
                             onChanged: (String? newValue) {
                               setState(() {
                                 selectedValue = newValue!;
+                                duration = endDate.difference(DateTime.now());
+                                print('Duration');
+                                print(duration.inDays);
+
                                 print(selectedValue);
                               });
                             },
@@ -227,11 +253,24 @@ class _secondpageState extends State<secondpage> {
                               height: double.infinity, // <-- match-parent
                               child: ElevatedButton(
                                   onPressed: () {
-                              setState(() {
-                                sketch.value = selectedValue!;
-                                
-                              });
-                            },
+                                    setState(() {
+                                      sketch.value = selectedValue!;
+
+                                      final response =
+                                          postValue("AAPL", duration);
+
+                                      final jsonData =
+                                          jsonDecode(response.toString());
+                                      print('prediction');
+                                      print(jsonData["prediction"]);
+                                      
+
+                                      print('response');
+                                      final prediction = jsonDecode(
+                                          response.toString())['prediction'];
+                                      print(prediction);
+                                    });
+                                  },
                                   child: Text(
                                     'Predict',
                                   ))))
@@ -244,5 +283,10 @@ class _secondpageState extends State<secondpage> {
         ),
       ),
     );
+  }
+
+  Future<http.Response> postValue(ticker, duration) {
+    return http.post(Uri.parse('http://127.0.0.1:8000/predict'),
+        body: {"ticker": ticker, "duration": duration});
   }
 }

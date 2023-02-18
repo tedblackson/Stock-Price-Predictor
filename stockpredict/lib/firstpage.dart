@@ -8,15 +8,7 @@ class StockInsightsPage extends StatefulWidget {
   _StockInsightsPageState createState() => _StockInsightsPageState();
 }
 
-// loadDataModelFiles() async {
-//   String? output = await Tflite.loadModel(
-//       model: 'assets/model.tflite',
-//       labels: 'assets/labels.txt',
-//       numThreads: 1,
-//       isAsset: true,
-//       useGpuDelegate: false);
-//   print(output);
-// }
+
 class _StockInsightsPageState extends State<StockInsightsPage> {
   var logos = {
     'GOOGL': 'assets/images/AA.jpg',
@@ -39,7 +31,7 @@ class _StockInsightsPageState extends State<StockInsightsPage> {
         Uri.parse('$_baseUrl?region=US&symbols=GOOGL,AAPL,AMZN,TSLA,MSFT,UBER,PLTR,NTDOY'),
         headers: {
           "X-RapidAPI-Key":
-              "dc1757ec8cmsh586c7464a85bf17p1b88adjsn724a94afb79c",
+              "993fa1516cmshe6d601a52263032p19adbajsn006862b14699",
           "X-RapidAPI-Host": "yh-finance.p.rapidapi.com"
         },
       );
